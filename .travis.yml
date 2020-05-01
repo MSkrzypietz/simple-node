@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - 13
+
+services:
+  - docker
+
+script:
+  - docker build -t simple-node .
+  - docker tag simple-node mskrzypietz/simple-node:latest
+
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push mskrzypietz/simple-node:latest
